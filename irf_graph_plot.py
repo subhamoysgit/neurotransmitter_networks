@@ -7,7 +7,6 @@ import numpy as np
 from scipy.stats import pearsonr
 from irf import irf_utils
 from irf.ensemble import RandomForestRegressorWithWeights
-#import netgraph
 import matplotlib.cm as cmx
 from sklearn.linear_model import LinearRegression
 import math
@@ -44,7 +43,6 @@ def irf_adj(filename, conc, type):
     classes = df['Target Class']
     l = len(classes)
     features = np.zeros((l, 5))
-    # cla = list(set(classes))
     for i in range(5):
         features[:, i] = df[NT[i]]
 
@@ -100,7 +98,6 @@ def main():
     filename = '/home/schatterjee/Desktop/iRF/Neurotransmitters_conc.xlsx'
     cla = ['Control', 'Acute', 'Chronic']
     concs = ['4 mM', '30 mM', '60 mM', '120 mM']
-    # t = ['DA','5-HT','NE','GLU','GABA']
     dct_label = {'Dopamine': 'DA', '5-HT': '5-HT',
                  'Norepinephrine': 'NE', 'Glutamate': 'GLU', 'GABA': 'GABA'}
     df = pd.read_excel(filename)
@@ -136,9 +133,6 @@ def main():
         adj_dict[i, 'Chronic vs. Acute'] = np.abs(adj_mat[:, :, 2]
                                                   - adj_mat[:, :, 1])
 
-    # cla_f = cla + ['Common','Change']
-    # cla_f = cla #+ ['Acute vs. Control','Chronic vs. Control','Chronic vs. Acute']
-    # cla_f = ['Acute vs. Control','Chronic vs. Control','Chronic vs. Acute']
     cla_f = ['Control', 'Acute', 'Chronic']
     r_pos = 0.6
     nt_keys = list(pos.keys())
@@ -149,11 +143,6 @@ def main():
         yy = i//len(cla_f)
         adjacency_matrix = adj_dict[concs[yy], cla_f[xx]]
         s_matrix = adj_s_dict[concs[yy], cla_f[xx]]
-        print(concs[yy], cla_f[xx])
-        print(s_matrix)
-        # th = 0.2
-        # if xx<3:
-        #     adjacency_matrix[adjacency_matrix<th] = 0
         G = nx.from_numpy_matrix(adjacency_matrix, create_using=nx.DiGraph)
         G = nx.relabel_nodes(G, int2label)
         weights = nx.get_edge_attributes(G, "weight")
@@ -210,8 +199,6 @@ def main():
                         ax.text(coord_x, coord_y, '+', color='r', fontsize=12)
 
     plt.show()
-    # fig.savefig('/home/schatterjee/Desktop/iRF/irf_graph_pairwise_change_'+str(th)+'.eps', format='eps', dpi=100)
-    # fig.savefig('/home/schatterjee/Desktop/iRF/irf_graph_pairwise_change_'+str(th)+'.pdf', dpi=300)
     fig.savefig('/home/schatterjee/Desktop/iRF/irf_graphs_'+str(th)+'.eps',
                 dpi=300, format='eps')
 
