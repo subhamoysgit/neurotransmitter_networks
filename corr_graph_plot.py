@@ -60,10 +60,9 @@ def main():
     int2label = {}
     for i in range(5):
         int2label[i] = dct_label[NT[i]]
-    # pos = {'DA': (-1.5, -0.5), '5-HT': (-1.5, 0), 'NE': (2.5, -0.5), 'GLU': (2.5, 0), 'GABA': (0.5, 0.5)}
     pos = {'DA': (-1.5, -0.5), '5-HT': (-1.5, 0.5), 'NE': (2.5, -0.5),
            'GLU': (2.5, 0.5), 'GABA': (0.5, 1.0)}
-    fig, axn = plt.subplots(4, 3, figsize=(8, 16))  # , sharex=True, sharey=True)
+    fig, axn = plt.subplots(4, 3, figsize=(8, 16))
     for i, ax in enumerate(axn.flat):
         xx = i % len(cla)
         yy = i//len(cla)
@@ -81,7 +80,7 @@ def main():
                 node_color=['r', '#83c995', '#17becf', 'yellow', 'orange'])
         ax.set_xlim([-3, 4])
         ax.set_ylim([-1, 1.3])
-        # nx.draw_networkx_edge_labels(G, pos=pos)
+
         if i == 10:
             ax.text(-6, -1.1,
                     'Edges shown with |Pearson Correlation| $\geq$ 0.5'
